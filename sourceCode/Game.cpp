@@ -57,11 +57,6 @@ void Game::run()
                 {
                     if(currentState == states[GameState::EndGame] || currentState == states[GameState::GetReady])
                         window.close();
-                   /* if(currentState == states[GameState::Playing])
-                    {
-                        endedByPlayer = true;
-                        changeState(GameState::EndGame);
-                    }*/
                 }
                 if(e.key.code == sf::Keyboard::P)                   //P
                 {
@@ -90,11 +85,11 @@ sf::RenderWindow& Game::getWindow()
 {
     return window;
 }
-int& Game::getTotalScore()
+int Game::getTotalScore() const
 {
     return totalScore;
 }
-int& Game::getLevelNum()
+int Game::getLevelNum() const
 {
     return levelNumber;
 }

@@ -6,7 +6,7 @@
 #include <ctime>
 
 template <typename T>
-void centerOrigin(T &drawable)
+void centerOrigin(T& drawable)
 {
     sf::FloatRect bound = drawable.getLocalBounds();
     drawable.setOrigin(bound.width / 2, bound.height / 2);
@@ -15,15 +15,15 @@ void centerOrigin(T &drawable)
 ////////// GameState //////////
 ///////////////////////////////
 
-GameState::GameState(Game *game) : window{game->getWindow()},
+GameState::GameState(Game* game) : window{game->getWindow()},
                                    parent{game}
 {
 }
 GameState::~GameState() {}
-void GameState::update(sf::Clock &clock) {}
-void GameState::draw(sf::RenderWindow &window) {}
-void GameState::handleInput(sf::Event &e) {}
-Game &GameState::getParent()
+void GameState::update(sf::Clock& clock) {}
+void GameState::draw(sf::RenderWindow& window) {}
+void GameState::handleInput(sf::Event& e) {}
+Game& GameState::getParent()
 {
     return *parent;
 }
@@ -49,7 +49,7 @@ GetReadyState::GetReadyState(Game *game) : GameState{game}
 GetReadyState::~GetReadyState()
 {
 }
-void GetReadyState::draw(sf::RenderWindow &window)
+void GetReadyState::draw(sf::RenderWindow& window)
 {
     window.draw(gameTitle);
     window.draw(welcome);
@@ -58,7 +58,7 @@ void GetReadyState::draw(sf::RenderWindow &window)
 ////////// PlayingState //////////
 //////////////////////////////////
 
-PlayingState::PlayingState(Game *game) : GameState(game),
+PlayingState::PlayingState(Game* game) : GameState(game),
                                          isBallRelesed{false},
                                          score{0},
                                          code{3},
@@ -100,7 +100,7 @@ PlayingState::PlayingState(Game *game) : GameState(game),
 PlayingState::~PlayingState()
 {
 }
-void PlayingState::update(sf::Clock &clock)
+void PlayingState::update(sf::Clock& clock)
 {
     stats.setString("Lives: " + std::to_string(lives) + " Score: " + std::to_string(score));
 
@@ -252,7 +252,7 @@ void PlayingState::update(sf::Clock &clock)
             getParent().changeState(GameState::LoadLevel);
     }
 }
-void PlayingState::draw(sf::RenderWindow &window)
+void PlayingState::draw(sf::RenderWindow& window)
 {
     for (auto a : blocks)
     {
@@ -266,7 +266,7 @@ void PlayingState::draw(sf::RenderWindow &window)
         window.draw(a);
     }
 }
-void PlayingState::handleInput(sf::Event &e)
+void PlayingState::handleInput(sf::Event& e)
 {
     if (e.type == sf::Event::KeyPressed)
     {
@@ -328,7 +328,7 @@ void PlayingState::randDrop()
         blocks[randIndex].willDrop = true;
     }
 }
-bool PlayingState::didCollide(sf::Sprite &sOne, sf::Sprite &sTwo)
+bool PlayingState::didCollide(sf::Sprite& sOne, sf::Sprite& sTwo)
 {
     return sOne.getGlobalBounds().intersects(sTwo.getGlobalBounds());
 }
@@ -348,7 +348,7 @@ void PlayingState::resetBall()
     balls[0].setPosition(paddle.getPosition().x + 5, window.getSize().y - paddle.getGlobalBounds().height - balls[0].getGlobalBounds().height - 24);
     isBallRelesed = false;
 }
-void PlayingState::blockGetDamage(std::vector<Block> &blocks, unsigned &itr)
+void PlayingState::blockGetDamage(std::vector<Block>& blocks, unsigned &itr)
 {
     blocks[itr].hp--;
     if (blocks[itr].hp == 0)
@@ -362,7 +362,7 @@ void PlayingState::blockGetDamage(std::vector<Block> &blocks, unsigned &itr)
 ////////// LoadLevelState ////////
 //////////////////////////////////
 
-LoadLevelState::LoadLevelState(Game *game) : GameState{game},
+LoadLevelState::LoadLevelState(Game* game) : GameState{game},
                                              time{3}
 {
     text.setFont(getParent().getFont());
@@ -376,7 +376,7 @@ LoadLevelState::LoadLevelState(Game *game) : GameState{game},
 LoadLevelState::~LoadLevelState()
 {
 }
-void LoadLevelState::update(sf::Clock &clock)
+void LoadLevelState::update(sf::Clock& clock)
 {
     if (clock.getElapsedTime().asSeconds() > 1)
     {
@@ -397,7 +397,7 @@ void LoadLevelState::update(sf::Clock &clock)
     centerOrigin(keys);
     centerOrigin(text);
 }
-void LoadLevelState::draw(sf::RenderWindow &window)
+void LoadLevelState::draw(sf::RenderWindow& window)
 {
     window.draw(text);
     window.draw(keys);
@@ -406,7 +406,7 @@ void LoadLevelState::draw(sf::RenderWindow &window)
 ////////// EndGameState //////////
 //////////////////////////////////
 
-EndGameState::EndGameState(Game *game) : GameState{game}
+EndGameState::EndGameState(Game* game) : GameState{game}
 {
     text.setFont(getParent().getFont());
     text.setCharacterSize(24);
@@ -414,7 +414,7 @@ EndGameState::EndGameState(Game *game) : GameState{game}
 EndGameState::~EndGameState()
 {
 }
-void EndGameState::update(sf::Clock &clock)
+void EndGameState::update(sf::Clock& clock)
 {
     if (getParent().endedByPlayer)
     {
@@ -431,7 +431,7 @@ void EndGameState::update(sf::Clock &clock)
     centerOrigin(text);
     text.setPosition(window.getSize().x / 2, window.getSize().y / 2);
 }
-void EndGameState::draw(sf::RenderWindow &window)
+void EndGameState::draw(sf::RenderWindow& window)
 {
     window.draw(text);
 }

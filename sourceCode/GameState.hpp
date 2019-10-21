@@ -21,17 +21,17 @@ public:
         LoadLevel,
         EndGame
     };
-    GameState(Game *game);
-    virtual ~GameState(); //if there is virtual method it is recommended to have virtual destructor
-    virtual void update(sf::Clock &clock);
-    virtual void draw(sf::RenderWindow &window);
-    virtual void handleInput(sf::Event &e);
-    Game &getParent();
+    GameState(Game* game);
+    virtual ~GameState();
+    virtual void update(sf::Clock& clock);
+    virtual void draw(sf::RenderWindow& window);
+    virtual void handleInput(sf::Event& e);
+    Game& getParent();
 
-    sf::RenderWindow &window;
+    sf::RenderWindow& window;
 
 private:
-    Game *parent;
+    Game* parent;
 };
 
 ////////// GetReadyState //////////
@@ -39,9 +39,9 @@ private:
 class GetReadyState : public GameState
 {
 public:
-    GetReadyState(Game *game);
+    GetReadyState(Game* game);
     ~GetReadyState();
-    void draw(sf::RenderWindow &window) override;
+    void draw(sf::RenderWindow& window) override;
 
 private:
     sf::Text gameTitle;
@@ -53,19 +53,21 @@ private:
 class PlayingState : public GameState
 {
 public:
-    PlayingState(Game *game);
+    PlayingState(Game* game);
     ~PlayingState();
-    void update(sf::Clock &clock) override;
-    void draw(sf::RenderWindow &window) override;
-    void handleInput(sf::Event &e) override;
+    void update(sf::Clock& clock) override;
+    void draw(sf::RenderWindow& window) override;
+    void handleInput(sf::Event& e) override;
+
+    friend struct Bonus;
 
 private:
     void renderLevel();
     void randDrop();
-    bool didCollide(sf::Sprite &sOne, sf::Sprite &sTwo);
+    bool didCollide(sf::Sprite& sOne, sf::Sprite& sTwo);
     void releaseBall();
     void resetBall();
-    void blockGetDamage(std::vector<Block> &blocks, unsigned &itr);
+    void blockGetDamage(std::vector<Block>& blocks, unsigned& itr);
     void executeBonus();
     enum
     {
@@ -93,7 +95,6 @@ private:
     std::vector<Ball> balls;
     sf::Sprite paddle;
     Bonus bonus;
-    friend struct Bonus;
 };
 
 ////////// LoadLevelState ////////
@@ -101,10 +102,10 @@ private:
 class LoadLevelState : public GameState
 {
 public:
-    LoadLevelState(Game *game);
+    LoadLevelState(Game* game);
     ~LoadLevelState();
-    void update(sf::Clock &clock) override;
-    void draw(sf::RenderWindow &window) override;
+    void update(sf::Clock& clock) override;
+    void draw(sf::RenderWindow& window) override;
 
 private:
     int time;
@@ -116,10 +117,10 @@ private:
 class EndGameState : public GameState
 {
 public:
-    EndGameState(Game *game);
+    EndGameState(Game* game);
     ~EndGameState();
-    void update(sf::Clock &clock) override;
-    void draw(sf::RenderWindow &window) override;
+    void update(sf::Clock& clock) override;
+    void draw(sf::RenderWindow& window) override;
 
 private:
     sf::Text text;

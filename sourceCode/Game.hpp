@@ -16,8 +16,8 @@ public:
 
     sf::Font& getFont();
     sf::RenderWindow& getWindow();
-    int& getTotalScore();
-    int& getLevelNum();
+    int getTotalScore() const;
+    int getLevelNum() const;
 
     void resetGame();
     void deleteLevel();
